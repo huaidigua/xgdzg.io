@@ -11,17 +11,3 @@
 .DS_Store
 .idea
 .vscode
-#newmycj
-/newmycj
-# 本地api环境切换
-/api-env.js
-
-# umi
-/src/.umi
-/src/.umi-production
-/src/.umi-test
-/.env.local
-# /theme/theme.js
-
-/public/lang/default
-/public/lang/pull
