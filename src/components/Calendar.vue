@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { Calendar } from "vant";
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
+import Snowflakes from 'magic-snowflakes';
+const snowflakes = new Snowflakes();
 import moment from 'moment';
 const text = ref('');
 const show = ref(false);
@@ -38,7 +39,7 @@ request.onupgradeneeded = function (event: any) {
   var objectStore = db.createObjectStore("signInDate", { keyPath: "id" });
   // 其他操作
 };
-
+snowflakes.start();
 const onDid = () => {
   var request = indexedDB.open("myDatabase", 1);
   // 处理数据库打开或创建成功的情况
@@ -68,9 +69,7 @@ const onDid = () => {
     objectStore.put(newData);
   };
 }
-onMounted(() => {
-  console.log(`the component is now mounted.`)
-})
+
 </script>
 
 <template>
@@ -78,7 +77,7 @@ onMounted(() => {
   <van-cell class="cellClass" title="查看签到日期" :value="text" @click="show = true" />
   <van-calendar readonly :default-date="dateList" v-model:show="show" :min-date="minDate" type="multiple"
     @confirm="onConfirm" />
-  <van-cell title="签到" :value="text" @click="onDid" />
+  <van-cell title="签到" @click="onDid" />
   <!-- <van-calendar v-model:show="show" :min-date="minDate" type="multiple" @confirm="onConfirm" /> -->
 </template>
 <style scoped>
