@@ -22,6 +22,7 @@ request.onsuccess = function (event: any) {
   // 处理获取请求成功的情况
   request.onsuccess = function (event: any) {
     var data = event.target.result;
+    console.log(data)
     if (data && data.dates) {
       defaultDates = data.dates;
       dateList = defaultDates.map((val: any) => new Date(val))
@@ -53,8 +54,9 @@ const onDid = () => {
       if (defaultDates.includes(now)) {
         alert('重复签到')
       } else {
-        newData.dates = [now]
-        alert('签到成功')
+        newData.dates.push(now)
+        console.log(now, newData.dates)
+        alert(`签到成功~ 签到时间：${moment().format('YYYY-MM-DD: HH:mm:ss')}`)
       }
     }
     else {
@@ -62,7 +64,8 @@ const onDid = () => {
       alert(`签到成功~ 签到时间：${moment().format('YYYY-MM-DD: HH:mm:ss')}`)
     }
     dateList = newData.dates.map((val: any) => new Date(val))
-    objectStore.add(newData);
+    console.log(dateList, newData, defaultDates)
+    objectStore.put(newData);
   };
 }
 onMounted(() => {
