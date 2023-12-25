@@ -28,7 +28,7 @@ request.onsuccess = function (event: any) {
     if (data && data.dates) {
       defaultDates = data.dates;
       dateList = defaultDates.map((val: any) => new Date(val))
-      state.data = data.dates;
+      state.data = [...data.dates];
     }
   };
   // 处理获取请求失败的情况
@@ -58,18 +58,19 @@ const onDid = () => {
         alert('重复签到')
       } else {
         newData.dates.push(now)
-        console.log(now, newData.dates)
         alert(`签到成功~ 签到时间：${moment().format('YYYY-MM-DD: HH:mm:ss')}`)
         // 可以抽奖
         state.canLottery = true
       }
     }
     else {
-      newData.dates = [now]
+      newData.dates = ['2023-12-24']
+      // newData.dates = [now]
       alert(`签到成功~ 签到时间：${moment().format('YYYY-MM-DD: HH:mm:ss')}`)
       state.canLottery = true
     }
     dateList = newData.dates.map((val: any) => new Date(val))
+    defaultDates = newData.dates
     // state.data = newData.dates;
     objectStore.put(newData);
   };
@@ -80,7 +81,7 @@ const onDid = () => {
 <template>
   <div class="inDate">
     <div>
-      <div class="caluation">小🐶蛋打卡器v2.0</div>
+      <div class="rainbow">小🐶蛋打卡器v2.0</div>
       <van-cell class="cellClass" title="查看签到日期" :value="text" @click="show = true" />
       <van-calendar readonly :default-date="dateList" v-model:show="show" :min-date="minDate" type="multiple"
         @confirm="onConfirm" />
@@ -96,6 +97,31 @@ const onDid = () => {
   <!-- <van-calendar v-model:show="show" :min-date="minDate" type="multiple" @confirm="onConfirm" /> -->
 </template>
 <style scoped>
+.rainbow {
+  text-align: center;
+  font-size: 2rem;
+  background: linear-gradient(to right, burlywood, yellow, lime, aqua, blue, fuchsia) 0 / 50%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: hue 6s infinite;
+}
+
+.dog {
+  color: #000000;
+  background: #FFFFFF;
+}
+
+@keyframes hue {
+  from {
+    filter: hue-rotate(0deg);
+  }
+
+  to {
+    filter: hue-rotate(360deg);
+  }
+}
+
 .inDate {
   position: fixed;
   top: 0;

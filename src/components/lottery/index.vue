@@ -164,6 +164,7 @@ let rotateList = [60, 60, 60, 60, 120, 120, 120, 120, 120, 120, 120, 120, 120, 1
 
 const onchange = () => {
     let now: string = moment().format('YYYY-MM-DD')
+    console.log(newDate, now, newDate.includes(now))
     if (!canLottery) {
         alert('签到才能抽奖😄')
         return
@@ -206,7 +207,6 @@ const onchange = () => {
     width: 310px;
     height: 310px;
     margin: 0 auto;
-    margin-top: 100px;
     position: relative;
 }
 
