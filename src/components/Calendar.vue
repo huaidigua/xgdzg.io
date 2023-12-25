@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 import Snowflakes from 'magic-snowflakes';
+import Lottery from './lottery/index.vue';
+const state = reactive({ data: [], canLottery: false })
 const snowflakes = new Snowflakes();
 import moment from 'moment';
 const text = ref('');
@@ -23,10 +25,10 @@ request.onsuccess = function (event: any) {
   // 处理获取请求成功的情况
   request.onsuccess = function (event: any) {
     var data = event.target.result;
-    console.log(data)
     if (data && data.dates) {
       defaultDates = data.dates;
       dateList = defaultDates.map((val: any) => new Date(val))
+      state.data = data.dates;
     }
   };
   // 处理获取请求失败的情况
@@ -58,14 +60,17 @@ const onDid = () => {
         newData.dates.push(now)
         console.log(now, newData.dates)
         alert(`签到成功~ 签到时间：${moment().format('YYYY-MM-DD: HH:mm:ss')}`)
+        // 可以抽奖
+        state.canLottery = true
       }
     }
     else {
       newData.dates = [now]
       alert(`签到成功~ 签到时间：${moment().format('YYYY-MM-DD: HH:mm:ss')}`)
+      state.canLottery = true
     }
     dateList = newData.dates.map((val: any) => new Date(val))
-    console.log(dateList, newData, defaultDates)
+    // state.data = newData.dates;
     objectStore.put(newData);
   };
 }
@@ -73,14 +78,35 @@ const onDid = () => {
 </script>
 
 <template>
-  <div class="caluation">小🐶蛋打卡器v1.0</div>
-  <van-cell class="cellClass" title="查看签到日期" :value="text" @click="show = true" />
-  <van-calendar readonly :default-date="dateList" v-model:show="show" :min-date="minDate" type="multiple"
-    @confirm="onConfirm" />
-  <van-cell title="签到" @click="onDid" />
+  <div class="inDate">
+    <div>
+      <!-- <div class="caluation">小🐶蛋打卡器v1.0</div> -->
+      <van-cell class="cellClass" title="查看签到日期" :value="text" @click="show = true" />
+      <van-calendar readonly :default-date="dateList" v-model:show="show" :min-date="minDate" type="multiple"
+        @confirm="onConfirm" />
+      <van-cell title="签到" @click="onDid" />
+    </div>
+    <div>
+      <Lottery :data="state.data" :canLottery="state.canLottery" />
+    </div>
+    <div class="bottomImg">
+      <img src="../assets/cherry.gif" />
+    </div>
+  </div>
   <!-- <van-calendar v-model:show="show" :min-date="minDate" type="multiple" @confirm="onConfirm" /> -->
 </template>
 <style scoped>
+.inDate {
+  position: fixed;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  justify-content: space-between;
+}
+
 .cellClass {
   color: red;
 }
@@ -90,6 +116,12 @@ const onDid = () => {
   text-align: center;
   font-size: 2rem;
   background-color: aqua;
-  color: cadetblue
+  color: cadetblue;
+}
+
+.bottomImg {
+  img {
+    width: 100%;
+  }
 }
 </style>
