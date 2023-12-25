@@ -80,7 +80,7 @@ const onDid = () => {
 <template>
   <div class="inDate">
     <div>
-      <!-- <div class="caluation">小🐶蛋打卡器v1.0</div> -->
+      <div class="caluation">小🐶蛋打卡器v2.0</div>
       <van-cell class="cellClass" title="查看签到日期" :value="text" @click="show = true" />
       <van-calendar readonly :default-date="dateList" v-model:show="show" :min-date="minDate" type="multiple"
         @confirm="onConfirm" />
