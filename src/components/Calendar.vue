@@ -81,17 +81,20 @@ const onDid = () => {
 <template>
   <div class="inDate">
     <div>
-      <div class="rainbow">小🐶蛋打卡器v2.0</div>
+      <div class="rainbow">小🐶蛋打卡器新春版</div>
       <van-cell class="cellClass" title="查看签到日期" :value="text" @click="show = true" />
       <van-calendar readonly :default-date="dateList" v-model:show="show" :min-date="minDate" type="multiple"
         @confirm="onConfirm" />
-      <van-cell title="签到" @click="onDid" />
+      <van-cell class="cellClass" title="签到" @click="onDid" />
     </div>
-    <div>
+    <div class="rotateBg">
       <Lottery :data="state.data" :canLottery="state.canLottery" />
     </div>
-    <div class="bottomImg">
-      <img src="../assets/cherry.gif" />
+    <!-- <div class="bottomImg">
+      <img src="../assets/2024.jpg" />
+    </div> -->
+    <div class="keyframe1">
+      <img src="../assets/getIt.gif" />
     </div>
   </div>
   <!-- <van-calendar v-model:show="show" :min-date="minDate" type="multiple" @confirm="onConfirm" /> -->
@@ -123,18 +126,37 @@ const onDid = () => {
 }
 
 .inDate {
+  background-image: url('../assets/newYear.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 0%;
   position: fixed;
   top: 0;
   height: 100%;
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  justify-content: space-between;
+  /* justify-content: center; */
+  /* justify-content: space-between; */
 }
 
+.keyframe1 {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+
+.keyframe1 img {
+  width: 150px;
+}
+
+/* .rotateBg {
+  background-image: url('../assets/2024.jpg');
+} */
+
 .cellClass {
-  color: red;
+  background-color: initial;
+  color: bisque;
 }
 
 .caluation {
